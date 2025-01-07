@@ -25,6 +25,7 @@ export function Airdrop() {
       alert("Airdrop successful");
       console.log(`Airdrop successful: ${signature}`);
     } catch (error) {
+      alert(`Airdrop failed`);
       console.error("Airdrop failed:", error);
     }
   };
