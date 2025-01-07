@@ -51,7 +51,6 @@ function App() {
       <WalletProvider wallets={[]} autoConnect>
         <WalletModalProvider>
           <div className="min-h-screen bg-gray-50">
-            {/* Navbar */}
             <nav className="bg-white shadow-md p-4">
               <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
@@ -85,15 +84,12 @@ function App() {
               </div>
             </nav>
 
-            {/* Main Content */}
             <main className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-xl shadow-lg">
               <div className="space-y-6">
-                {/* Airdrop is always visible */}
                 <div className="mb-8">
                   <Airdrop />
                 </div>
 
-                {/* Dynamic content based on active tab */}
                 {renderContent()}
               </div>
             </main>
