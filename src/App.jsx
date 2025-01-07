@@ -16,7 +16,11 @@ import { Airdrop } from "./Airdrop";
 
 function App() {
   return (
-    <ConnectionProvider endpoint={"https://api.devnet.solana.com"}>
+    <ConnectionProvider
+      endpoint={
+        "https://solana-devnet.g.alchemy.com/v2/pxIMU-70pUbKHm7JakxP84uVwLfp9Qeb"
+      }
+    >
       <WalletProvider wallets={[]} autoConnect>
         <WalletModalProvider>
           <div>

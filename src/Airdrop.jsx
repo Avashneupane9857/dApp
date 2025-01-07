@@ -35,7 +35,7 @@ export function Airdrop() {
         onChange={(e) => {
           setSol(e.target.value.trim());
         }}
-        className="bg-slate-800"
+        className="bg-slate-800 text-white"
         type="text"
         placeholder="amount"
       />
