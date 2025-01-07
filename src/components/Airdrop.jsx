@@ -22,6 +22,7 @@ export function Airdrop() {
         wallet.publicKey,
         lamports
       );
+      alert("Airdrop successful");
       console.log(`Airdrop successful: ${signature}`);
     } catch (error) {
       console.error("Airdrop failed:", error);
