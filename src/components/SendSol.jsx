@@ -6,9 +6,7 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import { useState } from "react";
-
 import { Buffer } from "buffer";
-
 window.Buffer = Buffer;
 
 function SendSol() {
@@ -40,11 +38,9 @@ function SendSol() {
   const sendToken = async () => {
     setError("");
     if (!validateInput()) return;
-
     try {
       setIsLoading(true);
       const lamports = Number(sol) * LAMPORTS_PER_SOL;
-
       const transaction = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey: wallet.publicKey,
@@ -52,25 +48,19 @@ function SendSol() {
           lamports,
         })
       );
-
       const latestBlockhash = await connection.getLatestBlockhash();
       transaction.recentBlockhash = latestBlockhash.blockhash;
       transaction.feePayer = wallet.publicKey;
-
       const signature = await wallet.sendTransaction(transaction, connection);
-
       const confirmation = await connection.confirmTransaction({
         signature,
         blockhash: latestBlockhash.blockhash,
         lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
       });
-
       if (confirmation.value.err) throw new Error("Transaction failed");
-
       alert(
         `Transaction successful!\nAmount: ${sol} SOL\nRecipient: ${client}\nSignature: ${signature}`
       );
-
       setSol("");
       setClient("");
     } catch (err) {
@@ -82,55 +72,69 @@ function SendSol() {
 
   if (!wallet.connected) {
     return (
-      <div className="text-center p-4">
+      <div className="flex items-center justify-center h-40 bg-slate-800 rounded-lg text-white text-lg">
         Please connect your wallet to send SOL
       </div>
     );
   }
 
   return (
-    <div className="relative top-11 flex flex-col items-center gap-4 max-w-md mx-auto">
-      {error && (
-        <div className="text-red-500 text-sm w-full text-center">{error}</div>
-      )}
-
-      <div className="flex flex-col w-full gap-4">
-        <input
-          value={sol}
-          onChange={(e) => setSol(e.target.value.trim())}
-          type="number"
-          step="0.000000001"
-          min="0"
-          className="bg-slate-800 text-white p-2 rounded"
-          placeholder="Amount in SOL"
-          disabled={isLoading}
-        />
-
-        <input
-          value={client}
-          onChange={(e) => setClient(e.target.value.trim())}
-          type="text"
-          className="bg-slate-800 text-white p-2 rounded"
-          placeholder="Recipient Address"
-          disabled={isLoading}
-        />
-
-        <button
-          onClick={sendToken}
-          disabled={isLoading}
-          className={`bg-black text-white p-2 rounded ${
-            isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800"
-          }`}
-        >
-          {isLoading ? "Sending..." : "Send SOL"}
-        </button>
-      </div>
-
-      {wallet.publicKey && (
-        <div className="text-sm text-gray-400 text-center">
+    <div className="max-w-xl mx-auto p-6">
+      <div className="bg-slate-800 rounded-lg p-6 shadow-lg space-y-6">
+        <div className="text-sm text-gray-400 break-all bg-slate-900 p-3 rounded-lg">
           From: {wallet.publicKey.toString()}
         </div>
-      )}
+
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-2 rounded-lg text-sm">
+            {error}
+          </div>
+        )}
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm text-gray-400 mb-2">Amount</label>
+            <input
+              value={sol}
+              onChange={(e) => setSol(e.target.value.trim())}
+              type="number"
+              step="0.000000001"
+              min="0"
+              className="w-full bg-slate-900 text-white px-4 py-3 rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              placeholder="Enter SOL amount"
+              disabled={isLoading}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-400 mb-2">
+              Recipient
+            </label>
+            <input
+              value={client}
+              onChange={(e) => setClient(e.target.value.trim())}
+              type="text"
+              className="w-full bg-slate-900 text-white px-4 py-3 rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              placeholder="Enter recipient address"
+              disabled={isLoading}
+            />
+          </div>
+
+          <button
+            onClick={sendToken}
+            disabled={isLoading}
+            className={`w-full bg-purple-600 text-white py-3 rounded-lg font-medium
+              ${
+                isLoading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-purple-700"
+              } 
+              transition-colors`}
+          >
+            {isLoading ? "Processing Transaction..." : "Send SOL"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
