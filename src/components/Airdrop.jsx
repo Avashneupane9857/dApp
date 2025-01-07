@@ -6,8 +6,15 @@ export function Airdrop() {
   const { connection } = useConnection();
   const [sol, setSol] = useState();
   const publicKey = wallet?.publicKey?.toString();
+
   if (!publicKey) {
-    return <p>loading.........</p>;
+    return (
+      <div className="flex items-center justify-center h-32">
+        <div className="animate-pulse text-purple-500 text-lg">
+          Connecting wallet...
+        </div>
+      </div>
+    );
   }
 
   const handleAirdrop = async () => {
@@ -15,7 +22,6 @@ export function Airdrop() {
       alert("Please enter a valid amount of SOL.");
       return;
     }
-
     const lamports = parseFloat(sol) * 1_000_000_000;
     try {
       const signature = await connection.requestAirdrop(
@@ -31,22 +37,27 @@ export function Airdrop() {
   };
 
   return (
-    <div className="relative top-10 text-black flex justify-center">
-      <h1>Hi Your public key is {publicKey}</h1>
-      <input
-        onChange={(e) => {
-          setSol(e.target.value.trim());
-        }}
-        className="bg-slate-800 text-white"
-        type="text"
-        placeholder="amount"
-      />
-      <button
-        onClick={handleAirdrop}
-        className="bg-slate-400 text-black rounded-2xl w-32"
-      >
-        Send airdrop
-      </button>
+    <div className="max-w-2xl mx-auto p-6 space-y-4">
+      <div className="bg-slate-800 rounded-lg p-4 text-sm text-gray-300 break-all">
+        Wallet: {publicKey}
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-3">
+        <input
+          onChange={(e) => {
+            setSol(e.target.value.trim());
+          }}
+          className="flex-1 bg-slate-800 text-white px-4 py-2 rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+          type="text"
+          placeholder="Enter SOL amount"
+        />
+        <button
+          onClick={handleAirdrop}
+          className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+        >
+          Request Airdrop
+        </button>
+      </div>
     </div>
   );
 }
