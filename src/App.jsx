@@ -4,8 +4,9 @@ import {
 } from "@solana/wallet-adapter-react";
 
 import {
-  WalletConnectButton,
+  WalletDisconnectButton,
   WalletModalProvider,
+  WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
 // import { clusterApiUrl } from "@solana/web3.js";
 
@@ -21,7 +22,8 @@ function App() {
           <div>
             <h1>Hi this is a dApp</h1>
           </div>
-          <WalletConnectButton></WalletConnectButton>
+          <WalletMultiButton></WalletMultiButton>
+          <WalletDisconnectButton></WalletDisconnectButton>
           <Airdrop />
         </WalletModalProvider>
       </WalletProvider>
